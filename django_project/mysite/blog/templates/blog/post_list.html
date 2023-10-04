@@ -9,12 +9,13 @@
     <h1>Our first Django template!</h1>
 
     <p>This is an html template.</p>
-
+    <p>Hello, {{ prénom }}</p>
     <div>
         {% for post in posts %}
             <div>
                 Published : {{ post.published_date }}
-                {{ post }}
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.text|linebreaksbr }}</p>
             </div>
         {% endfor %}
     </div>
