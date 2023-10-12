@@ -7,10 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First Django project!</title>
     <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
     <header>
-        <h1>Bruform Blog</h1>
+        <a href="/"><h1>Bruform Blog</h1></a>
+        <a href="{% url 'post_new' %}"><i class="fa-solid fa-pen-to-square"></i> New post</a>
     </header>
     
     <div>
