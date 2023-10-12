@@ -25,7 +25,22 @@ def post_new(request: HttpRequest):
             blog_post.author = request.user
             blog_post.publish()
             return redirect("post_detail", post_number=blog_post.id)
-    else:
+    else:  # elif request.method == "GET"
         form = PostForm()
+
+    return render(request, "blog/post_new.html", {"form": form})
+
+def post_edit(request, post_number):
+    blog_post = get_object_or_404(Post, id=post_number)
+
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=blog_post)
+        if form.is_valid():
+            blog_post = form.save(commit=False)
+            blog_post.author = request.user
+            blog_post.publish()
+            return redirect("post_detail", post_number=blog_post.id)
+    else:
+        form = PostForm(instance=blog_post)
 
     return render(request, "blog/post_new.html", {"form": form})
