@@ -53,5 +53,10 @@ def post_edit(request, post_number):
 def post_publish(request, post_number):
     blog_post = get_object_or_404(Post, id=post_number)
     blog_post.publish()
+
     return redirect("post_detail", post_number=blog_post.id)
-    
+
+def post_delete(request, post_number):
+    blog_post = get_object_or_404(Post, id=post_number)
+    blog_post.delete()
+    return redirect("post_list")
