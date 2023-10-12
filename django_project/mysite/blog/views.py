@@ -10,6 +10,10 @@ def post_list(request):
 
     return render(request, "blog/post_list.html", {"posts": published_posts, "prénom": "Bastien"})
 
+def post_draft_list(request):
+    drafts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
+    return render(request, "blog/post_draft_list.html", {"posts": drafts})
+
 
 def post_detail(request, post_number):
     post = get_object_or_404(Post, id=post_number)
@@ -23,7 +27,7 @@ def post_new(request: HttpRequest):
         if form.is_valid():
             blog_post = form.save(commit=False)
             blog_post.author = request.user
-            blog_post.publish()
+            blog_post.save()
             return redirect("post_detail", post_number=blog_post.id)
     else:  # elif request.method == "GET"
         form = PostForm()
@@ -38,9 +42,16 @@ def post_edit(request, post_number):
         if form.is_valid():
             blog_post = form.save(commit=False)
             blog_post.author = request.user
-            blog_post.publish()
+            blog_post.save()
             return redirect("post_detail", post_number=blog_post.id)
     else:
         form = PostForm(instance=blog_post)
 
     return render(request, "blog/post_new.html", {"form": form})
+
+
+def post_publish(request, post_number):
+    blog_post = get_object_or_404(Post, id=post_number)
+    blog_post.publish()
+    return redirect("post_detail", post_number=blog_post.id)
+    

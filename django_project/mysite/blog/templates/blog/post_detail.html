@@ -4,10 +4,15 @@
 
 <div>
     <a href="{% url 'post_list' %}">Back to list</a>
+    <a href="{% url 'post_edit' post_number=post.id %}">Edit post</a>
 </div>
 
 <div class="post">
-    Published : {{ post.published_date }}
+    {% if post.published_date %}
+        Published : {{ post.published_date }}
+    {% else %}
+        <a href="{% url 'post_publish' post_number=post.id %}">Publish</a>
+    {% endif %}
     <h2>{{ post.title }}</h2>
     <p>{{ post.text|linebreaksbr }}</p>
 </div>

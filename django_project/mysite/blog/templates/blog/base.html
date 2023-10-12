@@ -14,7 +14,10 @@
 <body>
     <header>
         <a href="/"><h1>Bruform Blog</h1></a>
+        
+        {% if user.is_authenticated %}
         <a href="{% url 'post_new' %}"><i class="fa-solid fa-pen-to-square"></i> New post</a>
+        {% endif %}
     </header>
     
     <div>
