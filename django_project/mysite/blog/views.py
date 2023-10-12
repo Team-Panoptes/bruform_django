@@ -13,4 +13,4 @@ def post_list(request):
 def post_detail(request, post_number):
     post = Post.objects.get(id=post_number)
 
-    return HttpResponse(f"Post number {post_number}")
+    return render(request, "blog/post_detail.html", {"post": post})
