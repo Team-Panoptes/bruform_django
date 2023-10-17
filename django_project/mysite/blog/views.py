@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpRequest
 from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
+from django.urls import reverse
 
 from .models import Post
 from .forms import PostForm
@@ -26,18 +28,12 @@ class PostDraftList(ListView):
     context_object_name = "posts"
 
 
-def post_detail(request, post_number):
-    post = get_object_or_404(Post, id=post_number)
-
-    return render(request, "blog/post_detail.html", {"post": post})
-
-
 class PostDetail(DetailView):
     model = Post
     # slug_field = "id"
     # slug_url_kwarg = "post_number"
     pk_url_kwarg = "post_number"
-
+    context_object_name = "post"
 
 def post_new(request: HttpRequest):
     
@@ -68,6 +64,13 @@ def post_edit(request, post_number):
 
     return render(request, "blog/post_new.html", {"form": form})
 
+
+class PostEdit(UpdateView):
+    model = Post
+    fields = ("title", "text")
+    template_name = "blog/post_new.html"
+    pk_url_kwarg = "post_number"
+    success_url = reverse("post_list")
 
 def post_publish(request, post_number):
     blog_post = get_object_or_404(Post, id=post_number)
