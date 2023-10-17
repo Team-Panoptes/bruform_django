@@ -2,7 +2,9 @@
 
 {% block content %}
 
-    {% for post in posts %}
+    <h1>List of posts</h1>
+
+    {% for post in post_list %}
         <div class="post">
             Published : {{ post.published_date }}
             <h2><a href="{% url 'post_detail' post_number=post.id %}">{{ post.title }}</a></h2>

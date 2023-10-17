@@ -1,24 +1,43 @@
+from typing import Any
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpRequest
-from .models import Post
 from django.utils import timezone
+from django.views import View
+from django.views.generic import TemplateView, ListView, DetailView
+
+from .models import Post
 from .forms import PostForm
 
+
 # Create your views here.
-def post_list(request):
-    published_posts = Post.objects.filter(published_date__lte=timezone.now())
+class PostList(ListView):
+    queryset = Post.objects.filter(published_date__lte=timezone.now())
 
-    return render(request, "blog/post_list.html", {"posts": published_posts, "prénom": "Bastien"})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["prenom"] = "Bastien"
 
-def post_draft_list(request):
-    drafts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
-    return render(request, "blog/post_draft_list.html", {"posts": drafts})
+        return context
+
+
+class PostDraftList(ListView):
+    queryset = Post.objects.filter(published_date__isnull=True).order_by('created_date')
+    template_name = "blog/post_draft_list.html"
+    context_object_name = "posts"
 
 
 def post_detail(request, post_number):
     post = get_object_or_404(Post, id=post_number)
 
     return render(request, "blog/post_detail.html", {"post": post})
+
+
+class PostDetail(DetailView):
+    model = Post
+    # slug_field = "id"
+    # slug_url_kwarg = "post_number"
+    pk_url_kwarg = "post_number"
+
 
 def post_new(request: HttpRequest):
     
@@ -60,3 +79,9 @@ def post_delete(request, post_number):
     blog_post = get_object_or_404(Post, id=post_number)
     blog_post.delete()
     return redirect("post_list")
+
+
+class About(TemplateView):
+    template_name = "blog/about.html"
+
+

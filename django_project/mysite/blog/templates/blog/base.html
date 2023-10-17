@@ -16,6 +16,7 @@
         <a href="/"><h1>Bruform Blog</h1></a>
         
         {% if user.is_authenticated %}
+        <p>Welcome back, {{ user.first_name }}!</p>
         <a href="{% url 'post_new' %}"><i class="fa-solid fa-pen-to-square"></i> New post</a>
         {% endif %}
     </header>
