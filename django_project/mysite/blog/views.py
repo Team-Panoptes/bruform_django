@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 from .models import Post
 from .forms import PostForm
@@ -70,7 +70,7 @@ class PostEdit(UpdateView):
     fields = ("title", "text")
     template_name = "blog/post_new.html"
     pk_url_kwarg = "post_number"
-    success_url = reverse("post_list")
+    success_url = reverse_lazy("post_list")
 
 def post_publish(request, post_number):
     blog_post = get_object_or_404(Post, id=post_number)
