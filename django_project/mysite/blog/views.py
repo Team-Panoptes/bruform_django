@@ -85,3 +85,14 @@ class About(TemplateView):
     template_name = "blog/about.html"
 
 
+class Check(DetailView):
+    model = Post
+    pk_url_kwarg = "post_number"
+
+    def get(self, request, post_number, username, *args, **kwargs):
+        print(post_number)
+        print(username)
+        return super().get(request, post_number, *args, **kwargs)
+
+def check(requests, post_number, username):
+    pass
