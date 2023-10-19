@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
+from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 
 from .models import Post
@@ -34,20 +35,6 @@ class PostDetail(DetailView):
     # slug_url_kwarg = "post_number"
     pk_url_kwarg = "post_number"
     context_object_name = "post"
-
-def post_new(request: HttpRequest):
-    
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            blog_post = form.save(commit=False)
-            blog_post.author = request.user
-            blog_post.save()
-            return redirect("post_detail", post_number=blog_post.id)
-    else:  # elif request.method == "GET"
-        form = PostForm()
-
-    return render(request, "blog/post_new.html", {"form": form})
 
 
 class PostNew(CreateView):
@@ -79,11 +66,14 @@ class PostEdit(UpdateView):
         return super().form_valid(form)
     
 
-def post_publish(request, post_number):
-    blog_post = get_object_or_404(Post, id=post_number)
-    blog_post.publish()
+class PostPublish(RedirectView):
+    
+    pattern_name = "post_detail"
 
-    return redirect("post_detail", post_number=blog_post.id)
+    def get_redirect_url(self, *args, **kwargs):
+        blog_post = get_object_or_404(Post, id=kwargs["post_number"])
+        blog_post.publish()
+        return super().get_redirect_url(*args, **kwargs)
 
 
 class PostDelete(DeleteView):
