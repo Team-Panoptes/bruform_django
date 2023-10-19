@@ -85,10 +85,11 @@ def post_publish(request, post_number):
 
     return redirect("post_detail", post_number=blog_post.id)
 
-def post_delete(request, post_number):
-    blog_post = get_object_or_404(Post, id=post_number)
-    blog_post.delete()
-    return redirect("post_list")
+
+class PostDelete(DeleteView):
+    model = Post
+    pk_url_kwarg = "post_number"
+    success_url = reverse_lazy("post_list")
 
 
 class About(TemplateView):
