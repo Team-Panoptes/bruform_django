@@ -34,6 +34,9 @@ class Comment(models.Model):
     email = models.EmailField()
     created_date = models.DateTimeField(auto_now_add=True)
 
+    def get_absolute_url(self):
+        return reverse("post_detail", kwargs={"post_number": self.post.id})
+
     class Meta:
         ordering = ["-created_date"]
 

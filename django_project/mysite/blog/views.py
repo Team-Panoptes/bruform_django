@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpRequest
 from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
-from django.views.generic.edit import UpdateView, CreateView, DeleteView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView, ModelFormMixin
 from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 
@@ -29,30 +29,38 @@ class PostDraftList(ListView):
     context_object_name = "posts"
 
 
-class PostDetail(DetailView):
+class PostDetail(ModelFormMixin, DetailView):
     model = Post
+    form_class = CommentForm
+
     # slug_field = "id"
     # slug_url_kwarg = "post_number"
     pk_url_kwarg = "post_number"
     context_object_name = "post"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["comments"] = self.object.comments.filter(active=True)
         return context
 
-    def get(self, request, post_number):
-        form = CommentForm()
-        self.extra_context = {"comment_form": form}
-        return super().get(request, post_number)
-
     def post(self, request, post_number):
-        form = CommentForm(request.POST)
+
+        form = self.get_form()
+
+        self.object = self.get_object()
+
         if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.post = self.get_object()
-            new_comment.save()
-        return self.get(request, post_number)
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        new_comment = form.save(commit=False)
+        new_comment.post = self.object
+        new_comment.save()
+        
+        return super().form_valid(form)
 
 
 
