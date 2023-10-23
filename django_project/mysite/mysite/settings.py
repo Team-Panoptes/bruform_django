@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!ddtwji__n#vx57x34cir(2hzaz)(sj4gvb!o!gp#*tzk-d3t@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+# DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
@@ -83,8 +84,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bruform_blog',
+        'USER': 'django_bruform',
+        'PASSWORD': 'django_bruform',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 

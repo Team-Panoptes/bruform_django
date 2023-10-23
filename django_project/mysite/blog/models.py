@@ -12,6 +12,7 @@ class Post(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
+
     def get_absolute_url(self):
         # Simpler version (but hardcoded):
         # return f"/post/{self.id}/"
@@ -23,3 +24,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    body = models.TextField()
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.body

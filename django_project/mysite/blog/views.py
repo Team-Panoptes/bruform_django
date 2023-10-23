@@ -36,6 +36,11 @@ class PostDetail(DetailView):
     pk_url_kwarg = "post_number"
     context_object_name = "post"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comments"] = self.object.comments.filter(active=True)
+        return context
+
 
 class PostNew(CreateView):
     model = Post

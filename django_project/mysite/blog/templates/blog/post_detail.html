@@ -21,4 +21,12 @@
     {% endif %}
 </div>
 
+<div>
+    {% for comment in comments %}
+    <div>
+        <p>{{ comment.body }}</p>
+    </div>
+    {% endfor %}
+</div>
+
 {% endblock %}
