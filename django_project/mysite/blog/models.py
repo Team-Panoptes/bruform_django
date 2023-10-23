@@ -30,6 +30,12 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     body = models.TextField()
     active = models.BooleanField(default=False)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_date"]
 
     def __str__(self):
         return self.body

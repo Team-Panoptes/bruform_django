@@ -90,6 +90,7 @@ DATABASES = {
         'PASSWORD': 'django_bruform',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'OPTIONS': { 'client_encoding': 'UTF8', },
     }
 }
 

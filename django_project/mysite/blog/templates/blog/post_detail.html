@@ -22,6 +22,14 @@
 </div>
 
 <div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Add comment</button>
+    </form>
+</div>
+
+<div>
     {% for comment in comments %}
     <div>
         <p>{{ comment.body }}</p>

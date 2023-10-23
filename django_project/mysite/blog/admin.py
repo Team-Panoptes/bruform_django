@@ -5,17 +5,13 @@ from .models import Post, Comment
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ["body", "active"]
-    list_filter = ["active"]
-    search_fields = ["body"]
+    list_display = ["body", "name", "active", "created_date"]
+    list_filter = ["active", "created_date"]
+    search_fields = ["body", "name", "email"]
     actions = ["mark_as_approved"]
 
     def mark_as_approved(self, request, queryset):
         queryset.update(active=True)
-            
-
-
-
 
 
 class PostAdmin(admin.ModelAdmin):

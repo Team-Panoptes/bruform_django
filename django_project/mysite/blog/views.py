@@ -9,7 +9,7 @@ from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 
 # Create your views here.
@@ -40,6 +40,20 @@ class PostDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context["comments"] = self.object.comments.filter(active=True)
         return context
+
+    def get(self, request, post_number):
+        form = CommentForm()
+        self.extra_context = {"comment_form": form}
+        return super().get(request, post_number)
+
+    def post(self, request, post_number):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = self.get_object()
+            new_comment.save()
+        return self.get(request, post_number)
+
 
 
 class PostNew(CreateView):
