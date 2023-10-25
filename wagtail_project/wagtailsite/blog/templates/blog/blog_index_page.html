@@ -13,12 +13,14 @@
     </div>
 
     <div>
-        {% for post in page.get_children %}
-            <div>
-                <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
-                <p>{{ post.specific.intro }}</p>
-                {{ post.specific.body|richtext }}
-            </div>
+        {% for child in blog_posts %}
+            {% with post=child.specific %}
+                <div>
+                    <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
+                    <p>{{ post.intro }}</p>
+                    {{ post.body|richtext }}
+                </div>
+            {% endwith %}
         {% endfor %}
     </div>
 

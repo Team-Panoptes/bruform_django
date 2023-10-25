@@ -2,7 +2,7 @@
 
 {% load wagtailcore_tags %}
 
-{% block body_class %}template-blogpostpage{% endblock body_class%}
+{% block body_class %}template-blogpostpage{% endblock body_class %}
 
 {% block content %}
     <h1>{{ page.title }}</h1>
@@ -15,4 +15,13 @@
     </div>
 
     <p><a href="{{ page.get_parent.url }}">Return to blog index</a></p>
+
+    <div>
+        More posts:
+        {% for post in page.get_siblings.live %}
+            {% if post.specific != page %}
+                <p><a href="{% pageurl post %}">{{ post.title }}</a></p>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock content %}
