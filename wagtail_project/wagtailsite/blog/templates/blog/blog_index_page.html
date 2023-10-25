@@ -12,4 +12,14 @@
         {{ page.intro|richtext }}
     </div>
 
+    <div>
+        {% for post in page.get_children %}
+            <div>
+                <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
+                <p>{{ post.specific.intro }}</p>
+                {{ post.specific.body|richtext }}
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock content %}
