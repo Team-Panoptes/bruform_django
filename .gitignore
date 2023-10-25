@@ -1,1 +1,3 @@
 django_project/mysite/static/
+venv/
+wagtail_project/wagtailsite/db.sqlite3

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-blogindexpage{% endblock body_class %}
+
+{% block content %}
+
+    <h1>{{ page.title }}</h1>
+
+    <div>
+        {{ page.intro|richtext }}
+    </div>
+
+{% endblock content %}

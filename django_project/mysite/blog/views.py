@@ -8,7 +8,7 @@ from django.views.generic.edit import UpdateView, CreateView, DeleteView, ModelF
 from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 
-from .models import Post
+from .models.post import Post
 from .forms import PostForm, CommentForm
 
 
@@ -37,7 +37,6 @@ class PostDetail(ModelFormMixin, DetailView):
     # slug_url_kwarg = "post_number"
     pk_url_kwarg = "post_number"
     context_object_name = "post"
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
