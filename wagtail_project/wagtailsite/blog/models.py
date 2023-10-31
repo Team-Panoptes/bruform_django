@@ -42,6 +42,7 @@ class BlogPostPage(Page):
         InlinePanel("gallery_images", label="Gallery images"),
     ]
 
+
 class BlogPostPageGalleryImage(Orderable):
     page = ParentalKey(BlogPostPage, on_delete=models.CASCADE, related_name="gallery_images")
     image = models.ForeignKey("wagtailimages.Image", on_delete=models.CASCADE, related_name="+")
